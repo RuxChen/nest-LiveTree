@@ -40,9 +40,9 @@ export class MenuController {
     return this.menuService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMenuDto: UpdateMenuDto) {
-    return this.menuService.update(+id, updateMenuDto);
+  @Post('/updateMenu')
+  update(@Body() updateMenuDto: UpdateMenuDto) {
+    return this.menuService.update(updateMenuDto);
   }
 
   @Delete(':id')

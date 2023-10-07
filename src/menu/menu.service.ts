@@ -3,7 +3,7 @@ import { CreateMenuDto } from './dto/create-menu.dto';
 import { UpdateMenuDto } from './dto/update-menu.dto';
 import { Menu } from './entities/menu.entity';
 import { Repository } from 'typeorm';
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class MenuService {
@@ -13,6 +13,7 @@ export class MenuService {
   ) {}
 
   async create(createMenuDto: CreateMenuDto) {
+    if (!createMenuDto.pid) createMenuDto.pid = 0;
     const newMenu = await this.menuRepository.create(createMenuDto);
 
     return await this.menuRepository.save(newMenu);
@@ -69,8 +70,17 @@ export class MenuService {
     return `This action returns a #${id} menu`;
   }
 
-  update(id: number, updateMenuDto: UpdateMenuDto) {
-    return `This action updates a #${id} menu`;
+  async update(updateMenuDto: UpdateMenuDto) {
+    const existMenu = await this.menuRepository.findOne({
+      where: { id: updateMenuDto.id },
+    });
+
+    if (!existMenu) {
+      throw new HttpException(`id为${updateMenuDto.id}的菜单不存在`, 401);
+    }
+
+    const updatedMenu = this.menuRepository.merge(existMenu, updateMenuDto);
+    this.menuRepository.save(updatedMenu);
   }
 
   remove(id: number) {

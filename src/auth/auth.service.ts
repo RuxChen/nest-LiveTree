@@ -35,7 +35,7 @@ export class AuthService {
     return this.jwtService.sign(user);
   }
 
-  getUserByToken(token) {
+  getUserByToken(token): any {
     return this.jwtService.decode(token);
   }
 
@@ -44,7 +44,7 @@ export class AuthService {
       throw new BadRequestException('请输入微信授权码');
     }
     await this.getSessionKey(code);
-    console.log('loginWithWechat userInfo', userInfo);
+    console.log('loginWithWechat userInfo ', userInfo);
     const user = await this.getUserByOpenid();
     if (!user) {
       // 获取用户信息，注册新用户
@@ -153,6 +153,10 @@ export class AuthService {
     console.log('role', role);
     console.log('menuList', menuList);
     return await this.roleService.update(roleId, role);
+  }
+
+  async getPermissionByRoleKey(role_key) {
+    return await this.roleService.getRolePermissionByRoleKey(role_key);
   }
   isExpires(access) {
     return Date.now() - access.getTime > access.expiresIn * 1000;

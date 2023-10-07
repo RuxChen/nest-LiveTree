@@ -59,6 +59,15 @@ export class RoleService {
     return { ...permission, allMenus: allMenus };
   }
 
+  async getRolePermissionByRoleKey(role_key) {
+    const permission = await this.roleRepository
+      .createQueryBuilder('role')
+      .leftJoinAndSelect('role.menus', 'menu')
+      .setParameter('roleKey', role_key)
+      .getOne();
+    return permission.menus;
+  }
+
   async setRolePermission(role_permission) {
     console.log('getRolePermission role_id', role_permission);
     const menuList = [];

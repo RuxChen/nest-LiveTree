@@ -32,7 +32,9 @@ export class PostsService {
     const token = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
     const userInfo = await this.authService.getUserByToken(token);
     console.log('create', post, token, userInfo);
-    const postUser = await this.userService.findByUserId(userInfo.user_id);
+    const postUser = await this.userService.findByUserId(
+      String(userInfo.user_id),
+    );
     console.log('postUser', postUser);
     if (!title) {
       throw new HttpException('缺少文章标题', 401);

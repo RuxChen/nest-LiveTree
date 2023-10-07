@@ -2,9 +2,13 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty } from 'class-validator';
 
 export class CreateMenuDto {
+  @IsNotEmpty({ message: '菜单id必填' })
+  @ApiPropertyOptional({ description: '菜单id' })
+  id: number;
+
   @IsNotEmpty({ message: '父级菜单id必填' })
   @ApiPropertyOptional({ description: '父级菜单id' })
-  readonly pid: number;
+  pid: any;
 
   @ApiProperty({ description: '菜单标题' })
   @IsNotEmpty({ message: '菜单标题必填' })

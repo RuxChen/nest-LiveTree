@@ -60,7 +60,7 @@ export class UserService {
 
     return user;
   }
-  async findByUserId(user_id: number) {
+  async findByUserId(user_id) {
     return await this.userRepository.findOne({ where: { user_id } });
   }
 

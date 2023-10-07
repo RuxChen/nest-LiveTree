@@ -16,6 +16,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { RolePermissionDto } from './dto/permission.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -41,5 +42,12 @@ export class AuthController {
     @Body('userInfo') userInfo: object,
   ) {
     return this.authService.loginWithWechat(code, userInfo);
+  }
+
+  @ApiOperation({ summary: '获取角色权限' })
+  @ApiBody({ type: RolePermissionDto, required: true })
+  @Post('getRolePermissionByRoleKey')
+  async getRolePermissionByRoleKey(@Body('roleKey') role_key: string) {
+    return this.authService.getPermissionByRoleKey(role_key);
   }
 }
