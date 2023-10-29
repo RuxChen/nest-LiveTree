@@ -28,10 +28,10 @@ services:
             - 3306:3306 # 本机端口:容器端口
         restart: on-failure
         environment: 
-            MYSQL_DATABASE: demo_db
-            MYSQL_ROOT_PASSWORD: 123456
-            MYSQL_USER: demo_user
-            MYSQL_PASSWORD: 123456
+            MYSQL_DATABASE: nest-demo-db
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: root
+            MYSQL_PASSWORD: root
             MYSQL_ROOT_HOST: '%'
         volumes:
             - ./deploy/mysql/db:/var/lib/mysql # 用来存放了数据库表文件
